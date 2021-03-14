@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 int main(void)
 {
@@ -8,11 +10,13 @@ int main(void)
 
     if ((pid = fork()) < 0) {
         perror("Hiba a forkban");
+        exit(7);
     }
-    else if (pid == 0) exit(7);
-
-    if(wait(&status)!=pid)
+    else if (pid == 0)
+       abort();
+    if(wait(&status)!=pid) {
         perror("Hiba a wait-el");
+    }
     if(WIFEXITED(status))
         printf("Sikeres");
 
