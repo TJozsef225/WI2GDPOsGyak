@@ -1,12 +1,11 @@
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/wait.h>
 
-int main(void) {
-    int pid;
+int main (void) {
+    pid_t pid;
 
-    if ((pid = fork())) {
+    if ((pid = fork()) < 0){
         perror("process error");
     }
     else if (pid == 0){
@@ -17,7 +16,5 @@ int main(void) {
     if (waitpid(pid, NULL, 0) < 0){
         perror("wait error");
     }
-
     return 0;
-
 }
